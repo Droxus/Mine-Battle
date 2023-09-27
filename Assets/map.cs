@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class map : MonoBehaviour
@@ -11,6 +12,7 @@ public class map : MonoBehaviour
     public Material[] materials;
     // Start is called before the first frame update
     void Start() {
+        Debug.Log("Hello");
         mapWidth = 10;
         mapHeight = 3;
         mapDepth = 10;
@@ -19,7 +21,7 @@ public class map : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        
+        onBlockClick();
     }
 
     void generateMap(int width, int height, int depth) {
@@ -31,9 +33,25 @@ public class map : MonoBehaviour
                     Vector3 position = new Vector3(x, y, z);
                     GameObject newCube = Instantiate(cube, position, transform.rotation);
                     newCube.GetComponent<Renderer>().material = yMaterial;
-                    // newCube.GetComponent<Renderer>().material = materials[x % 2];
                 }
             }
         }
+    }
+    void onBlockClick() {
+        if (Input.GetMouseButtonDown(0)) {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit)) {
+                GameObject clickedCube = hit.collider.gameObject;
+                DefineBlock(clickedCube);
+            }
+        }
+    }
+    async void DefineBlock(GameObject cube) {
+        Debug.Log(cube.transform.position);
+        cube.GetComponent<Renderer>().material.color = Color.cyan;
+        await Task.Delay(500);
+        cube.GetComponent<Renderer>().material.color = Color.white;
     }
 }

@@ -10,7 +10,6 @@ public class cameraScript : MonoBehaviour
     private Vector3 panLimit;
     private bool isDragging = false;
     private Vector3 lastMousePosition;
-    private int minZoom = 2;
     private int maxZoom = 20;
     private int xStartPosition = 0;
     // Start is called before the first frame update
